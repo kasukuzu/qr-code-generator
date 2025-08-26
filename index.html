@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRコード生成ページ</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        #text-input {
+            width: 90%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+        }
+        #generate-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #generate-btn:hover {
+            background-color: #0056b3;
+        }
+        #qrcode-container {
+            margin-top: 2rem;
+            width: 256px;
+            height: 256px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #eee;
+        }
+        /* QRコード画像がコンテナに収まるように設定 */
+        #qrcode-container img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>QRコード変換</h1>
+        <input type="text" id="text-input" placeholder="URLやテキストを入力">
+        <button id="generate-btn">変換</button>
+        
+        <div id="qrcode-container"></div>
+    </div>
+
+    <script>
+        const generateBtn = document.getElementById('generate-btn');
+        const textInput = document.getElementById('text-input');
+        const qrcodeContainer = document.getElementById('qrcode-container');
+
+        generateBtn.addEventListener('click', () => {
+            const text = textInput.value;
+
+            if (text.trim() === '') {
+                alert('URLやテキストを入力してください。');
+                return;
+            }
+
+            qrcodeContainer.innerHTML = '';
+
+            try {
+                const qr = qrcode(0, 'M');
+                qr.addData(text);
+                qr.make();
+
+                // ▼▼▼【修正箇所】▼▼▼
+                // <img>タグで囲んで、画像として表示させる
+                qrcodeContainer.innerHTML = '<img src="' + qr.createDataURL(10, 5) + '" alt="QR Code">';
+            
+            } catch (e) {
+                alert('QRコードの生成に失敗しました。');
+                console.error(e);
+            }
+        });
+    </script>
+
+</body>
+</html>
