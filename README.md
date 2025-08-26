@@ -9,7 +9,7 @@
 
 ## 🚀 公開ページ
 
-（ここに後で公開するURLを貼り付けます）
+https://kasukuzu.github.io/qr-code-generator/
 
 ## 使い方
 
